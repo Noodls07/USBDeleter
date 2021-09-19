@@ -46,6 +46,9 @@ namespace USBDeleter
 		public Dictionary<string, Dictionary<string, string>> pathContent;
 		public bool pathDeleted = false;
 		public bool keyValDeleted = false;
+
+		public RegWork() { }
+
 		/// <summary>
 		/// Create copy of RegWork
 		/// </summary>
