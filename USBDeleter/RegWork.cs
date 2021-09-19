@@ -65,7 +65,7 @@ namespace USBDeleter
 		/// <param name="key">Registry-path</param>
 		private void SearchInLocation(RegistryKey key)
         {
-			if (key == null) return;
+			if (key is null) return;
 
 			if (key.Name.Contains(_serial_number))//search in Location
 			{
@@ -78,7 +78,7 @@ namespace USBDeleter
 		/// <param name="key">Registry-path</param>
 		private void SearchInKeysValues(RegistryKey key)
 		{
-			if (key == null) return;
+            if (key is null) return;
 
 			if (key.hasKeyNames())//search in Keys & Values
 			{
@@ -153,7 +153,7 @@ namespace USBDeleter
 		/// </summary>
 		/// <param name="token">Token that can Cancel search</param>
 		/// <param name="sernum">Selected serial number/name of device</param>
-		public void Find(CancellationToken token, string sernum = "")
+		public void Find(CancellationToken token, string sernum)
         {
 			if (!string.IsNullOrEmpty(sernum))
 				_serial_number = sernum;
@@ -217,7 +217,7 @@ namespace USBDeleter
 
 		public void DeleteNotUsedKey(string key)
         {
-			this._registryHives.RemoveAll(x => x.Name == key);
+            _registryHives.RemoveAll(x => x.Name == key);
 		}
 
 

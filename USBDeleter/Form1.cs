@@ -44,7 +44,7 @@ namespace USBDeleter
 
         async private void button2_Click(object sender, EventArgs e)
         {
-            if (listBox2.SelectedItem == null) return;
+            if (listBox2.SelectedItem is null) return;
 
             dataGridView1.Rows.Clear();
 
@@ -86,7 +86,7 @@ namespace USBDeleter
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if (dataGridView1.CurrentRow == null) return;
+            if (dataGridView1.CurrentRow is null) return;
 
             if (myReg.DeleteSelectedFolderKeyValue(dataGridView1.CurrentRow.Cells[0].Value.ToString(),
                                                    dataGridView1.CurrentRow.Cells[1].Value.ToString(),
@@ -114,7 +114,7 @@ namespace USBDeleter
 
         private void button4_Click(object sender, EventArgs e)
         {
-            if (cancelTokenSource == null) return;
+            if (cancelTokenSource is null) return;
             cancelTokenSource.Cancel();
         }
 
@@ -133,25 +133,17 @@ namespace USBDeleter
         private void checkBoxMobile_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBoxMobile.Checked)
-            {
                 checkBoxUSB.Checked = false;
-            }
             else
-            {
                 checkBoxUSB.Checked = true;
-            }
         }
 
         private void checkBoxUSB_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBoxUSB.Checked)
-            {
                 checkBoxMobile.Checked = false;
-            }
             else
-            {
                 checkBoxMobile.Checked = true;
-            }
         }
     }
 }

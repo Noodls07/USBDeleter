@@ -12,7 +12,7 @@ namespace USBDeleter
         {
             bool has = false;
             
-            if (key==null) return has;
+            if (key is null ) return has;
 
             if (key.SubKeyCount > 0) has = true;
 
@@ -23,7 +23,7 @@ namespace USBDeleter
         {
             bool has = false;
 
-            if (key == null) return has;
+            if (key is null) return has;
 
             if (key.ValueCount > 0) has = true;
 
