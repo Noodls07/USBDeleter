@@ -117,7 +117,7 @@ namespace USBDeleter
 				_rootKey = Registry.CurrentUser;
 				_searchMobileStr = true;
 				_serchUSBStr = false;
-				_mainKeyReg = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\AutoplayHandlers\KnownDevices";
+				_mainKeyReg = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\AutoplayHandlers\KnownDevices";//other path is SYSTEM\CurrentControlSet\Enum\USB find by DeviceDesc and CompatibleIDs=>includes USB\MS_COMP_MTP
 			}
 
 			RegistryKey usbStor = _rootKey.OpenSubKey(_mainKeyReg,false);
