@@ -138,6 +138,7 @@ namespace USBDeleter
             this.checkBox1.TabIndex = 7;
             this.checkBox1.Text = "Del MAIN folder with K/V";
             this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.Visible = false;
             // 
             // label1
             // 

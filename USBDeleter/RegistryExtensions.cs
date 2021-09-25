@@ -10,24 +10,12 @@ namespace USBDeleter
     {
         public static bool hasCildren(this RegistryKey key)
         {
-            bool has = false;
-            
-            if (key is null ) return has;
-
-            if (key.SubKeyCount > 0) has = true;
-
-            return has;
+            return key.SubKeyCount > 0;
         }
 
         public static bool hasKeyNames(this RegistryKey key)
         {
-            bool has = false;
-
-            if (key is null) return has;
-
-            if (key.ValueCount > 0) has = true;
-
-            return has;
+            return key.ValueCount > 0;
         }
     }
 }

@@ -44,6 +44,7 @@ namespace USBDeleter
 		/// Dictionary that include ( registry path [key,value] )
 		/// </summary>
 		public Dictionary<string, Dictionary<string, string>> pathContent;
+		
 		public bool pathDeleted = false;
 		public bool keyValDeleted = false;
 
@@ -96,7 +97,7 @@ namespace USBDeleter
 						else
 						{
 							pathContent.Add(key.Name, new Dictionary<string, string>());
-							pathContent[key.Name]?.Add(k, key.GetValue(k).ToString());
+							pathContent[key.Name]?.Add(k, (key.GetValueKind(k.ToString())==RegistryValueKind.String) ?  key.GetValue(k).ToString() : "");
 						}
 					}
 				}
@@ -113,7 +114,7 @@ namespace USBDeleter
 				_rootKey = Registry.LocalMachine;
 				_searchMobileStr = false;
 				_serchUSBStr = true;
-				_mainKeyReg = @"SYSTEM\CurrentControlSet\Enum\USBSTOR";//@"SYSTEM\Setup\Upgrade\PnP\CurrentControlSet\Control\DeviceMigration\Devices\USBSTOR";
+				_mainKeyReg = @"SYSTEM\CurrentControlSet\Enum\USBSTOR";
 			} 
 			else
             {
@@ -140,8 +141,9 @@ namespace USBDeleter
 
 			if (_serchUSBStr)
 				collectionOfCurrentUsbSerialNums = currentUsb.GetSubKeyNames();
+			//TO DO Add ContainerID to search/del
 
-            if (_searchMobileStr)
+			if (_searchMobileStr)
             {
 				Array.Resize(ref collectionOfCurrentUsbSerialNums, collectionOfCurrentUsbSerialNums.Length + 1);
 				collectionOfCurrentUsbSerialNums.SetValue(currentUsb.GetValue("Label").ToString(), collectionOfCurrentUsbSerialNums.Length-1);
@@ -217,7 +219,10 @@ namespace USBDeleter
 			//	token.ThrowIfCancellationRequested();
 		}
 
-
+		/// <summary>
+		/// Remove HK not used in search
+		/// </summary>
+		/// <param name="key"></param>
 		public void DeleteNotUsedKey(string key)
         {
             _registryHives.RemoveAll(x => x.Name == key);
@@ -236,54 +241,53 @@ namespace USBDeleter
 		public bool DeleteSelectedFolderKeyValue(string path, string key, string value, bool del_path)
         {
 
-			string folderPath = "";
+			//string folderPath = "";
 			RegistryKey rk = null;
 
 			path = path.Remove(0, path.IndexOf("\\") + 1).Trim();
 
-			//collecting path to folder that contain SN. If we want to delete all inner folders
-			if (path.Contains(_serial_number))
-			{
-				string[] newP = path.Split('\\');
+			//collecting path to folder that contain SN.
+			//if (path.Contains(_serial_number))
+			//{
+			//	string[] newP = path.Split('\\');
 				
-				foreach (var s in newP)
-				{
-					if (!s.Contains(_serial_number))
-						folderPath += s + "\\";
-					else
-					{
-						folderPath += s + "\\";
-						break;
-					}
-				}
-			}
+			//	foreach (var s in newP)
+			//	{
+			//		if (!s.Contains(_serial_number))
+			//			folderPath += s + "\\";
+			//		else
+			//		{
+			//			folderPath += s + "\\";
+			//			break;
+			//		}
+			//	}
+			//}
 
-            if (del_path) path = folderPath;
+   //         if (del_path) path = folderPath;
 
 			try
 			{
 				rk = _rootKey.OpenSubKey(path, true);
 				
-				if (del_path)
-				{
-					key = string.Empty;
-					rk.DeleteSubKeyTree(key);
-					pathDeleted = true;
-				}
-				else
-				{
+				//if (del_path)
+				//{
+				//	key = string.Empty;
+				//	rk.DeleteSubKeyTree(key);
+				//	pathDeleted = true;
+				//}
+				//else
+				//{
 					if (!string.IsNullOrEmpty(key) || !string.IsNullOrEmpty(value))
                     {
 						rk.DeleteValue(key);
 						keyValDeleted = true;
 					}
-
                     else
                     {
 						pathDeleted = true;
 						rk.DeleteSubKeyTree(key);
 					}
-                }
+                //}
 
 				MessageBox.Show("Deleted!");
 				return true;
